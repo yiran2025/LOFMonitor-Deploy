@@ -188,7 +188,10 @@ class LOFMonitorCLI:
                 # 发送钉钉 (每日去重由 notifier.py 和 config.py 处理)
                 if not config.is_fund_alerted(code):
                     msg = format_alert_message(code, name, alert_type, rate, market_price, nav_price, f_state)
-                    send_dingtalk_alert(config.get("dingtalk_webhook"), config.get("dingtalk_secret"), msg, fund_code=code)
+                    if "暂停申购" in f_state:
+                        pass
+                    else:
+                        send_dingtalk_alert(config.get("dingtalk_webhook"), config.get("dingtalk_secret"), msg, fund_code=code)
  
         def print_progress(current, total, name, fund_data):
             m_price = fund_data.get('market_price')
